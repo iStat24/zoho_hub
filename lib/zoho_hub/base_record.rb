@@ -63,8 +63,9 @@ module ZohoHub
         body = get(request_path, options)
         response = build_response(body)
 
-        data = response.nil? ? [] : [response.data].flatten
-
+        result = [response.data].flatten if response.data.any?
+        data = Array(result)
+        
         data.map { |json| new(json) }
       end
 
