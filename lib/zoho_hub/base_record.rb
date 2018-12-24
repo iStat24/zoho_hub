@@ -41,8 +41,10 @@ module ZohoHub
         path = File.join(request_path, 'search')
 
         response = get(path, params)
-        data = response.nil? ? [] : [response].flatten
 
+        result = [response.data].flatten if response&.data.any?
+        data = Array(result)
+        
         data.map { |info| new(info) }
       end
 
