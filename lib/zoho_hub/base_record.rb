@@ -57,7 +57,7 @@ module ZohoHub
         body = post('contacts', data: [params])
         response = build_response(body)
 
-        response.data.dig(:details, :id)
+        response[:data].dig(:details, :id) if response.try(:[], :data)
       end
 
       def all(options = {})
