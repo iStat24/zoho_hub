@@ -42,7 +42,7 @@ module ZohoHub
 
         response = get(path, params)
 
-        result = [response[:data]].flatten if response[:data]
+        result = [response[:data]].flatten if response.try(:[], :data)
         data = Array(result)
         
         data.map { |info| new(info) }
