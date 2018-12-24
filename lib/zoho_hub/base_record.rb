@@ -54,7 +54,10 @@ module ZohoHub
       end
 
       def create(params)
-        new(params).save
+        body = post('contacts', data: [attrs])
+        response = build_response(body)
+
+        response.data.dig(:details, :id)
       end
 
       def all(options = {})
@@ -87,35 +90,6 @@ module ZohoHub
 
         response
       end
-    end
-
-    def save
-      body = if new_record? # create new record
-               post(self.class.request_path, data: [to_params])
-             else # update existing record
-               path = File.join(self.class.request_path, id)
-               put(path, data: [to_params])
-             end
-
-      response = build_response(body)
-
-      response.data.dig(:details, :id)
-    end
-
-    def new_record?
-      !id
-    end
-
-    def to_params
-      params = {}
-
-      attributes.each do |attr|
-        key = attr_to_zoho_key(attr)
-
-        params[key] = send(attr)
-      end
-
-      params
     end
 
     def build_response(body)
