@@ -54,7 +54,7 @@ module ZohoHub
       end
 
       def create(params)
-        body = post('contacts', data: [attrs])
+        body = post('contacts', data: [params])
         response = build_response(body)
 
         response.data.dig(:details, :id)
