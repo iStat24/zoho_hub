@@ -99,7 +99,7 @@ module ZohoHub
       parse(result.body)
     end
 
-    def self.get_token(grant_token, configuration = nil)
+    def self.get_token(grant_token, configuration: nil)
       new(configuration: configuration).get_token(grant_token)
     end
 
