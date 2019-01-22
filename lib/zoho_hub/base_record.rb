@@ -26,8 +26,8 @@ module ZohoHub
         @request_path
       end
 
-      def find(id)
-        body = get(File.join(request_path, id.to_s))
+      def find(connection, id)
+        body = get(connection, File.join(request_path, id.to_s))
         response = build_response(body)
 
         if response.empty?
@@ -37,30 +37,30 @@ module ZohoHub
         new(response.data)
       end
 
-      def where(params)
+      def where(connection, params)
         path = File.join(request_path, 'search')
 
-        response = get(path, params)
+        response = get(connection, path, params)
         data = response[:data]
 
         data.map { |info| new(info) }
       end
 
-      def find_by(params)
-        records = where(params)
+      def find_by(connection, params)
+        records = where(connection, params)
         records.first
       end
 
-      def create(params)
-        new(params).save
+      def create(connection, params)
+        new(params).save(connection)
       end
 
-      def all(options = {})
+      def all(connection, options = {})
         options[:page] ||= DEFAULT_PAGE
         options[:per_page] ||= DEFAULT_RECORDS_PER_PAGE
         options[:per_page] = MIN_RECORDS if options[:per_page] < MIN_RECORDS
 
-        body = get(request_path, options)
+        body = get(connection, request_path, options)
         response = build_response(body)
 
         data = response.nil? ? [] : response.data
@@ -86,12 +86,12 @@ module ZohoHub
       end
     end
 
-    def save
+    def save(connection)
       body = if new_record? # create new record
-               post(self.class.request_path, data: [to_params])
+               post(connection, self.class.request_path, data: [to_params])
              else # update existing record
                path = File.join(self.class.request_path, id)
-               put(path, data: [to_params])
+               put(connection, path, data: [to_params])
              end
 
       response = build_response(body)

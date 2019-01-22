@@ -7,11 +7,12 @@ module ZohoHub
 
     DEFAULT_API_DOMAIN = 'https://accounts.zoho.eu'
 
-    def initialize
-      @client_id = ''
-      @secret = ''
-      @redirect_uri = ''
-      @api_domain = DEFAULT_API_DOMAIN
+    def initialize(attrs)
+      attrs ||= {}
+      @client_id = attrs[:client_id]
+      @secret = attrs[:secret]
+      @redirect_uri = attrs[:redirect_uri]
+      @api_domain = attrs[:api_endpoint] || DEFAULT_API_DOMAIN
     end
 
     def debug?

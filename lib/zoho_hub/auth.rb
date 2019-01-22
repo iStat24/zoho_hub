@@ -26,14 +26,14 @@ module ZohoHub
 
     def_delegators :@configuration, :redirect_uri, :client_id, :secret, :api_domain
 
-    def initialize(access_type: DEFAULT_ACCESS_TYPE, scopes: DEFAULT_SCOPES)
-      @configuration = ZohoHub.configuration
+    def initialize(access_type: DEFAULT_ACCESS_TYPE, scopes: DEFAULT_SCOPES, configuration: nil)
+      @configuration = ZohoHub.configuration(configuration)
       @access_type = access_type
       @scopes = scopes
     end
 
-    def self.auth_url(access_type: DEFAULT_ACCESS_TYPE, scopes: DEFAULT_SCOPES)
-      new(access_type: access_type, scopes: scopes).auth_url
+    def self.auth_url(access_type: DEFAULT_ACCESS_TYPE, scopes: DEFAULT_SCOPES, configuration: {})
+      new(access_type: access_type, scopes: scopes, configuration: configuration).auth_url
     end
 
     def auth_url
@@ -59,8 +59,8 @@ module ZohoHub
       Addressable::URI.join(api_domain, AUTH_PATH)
     end
 
-    def self.refresh_token(refresh_token)
-      new.refresh_token(refresh_token)
+    def self.refresh_token(refresh_token, configuration: nil)
+      new(configuration: configuration).refresh_token(refresh_token)
     end
 
     def refresh_token(refresh_token)
@@ -99,8 +99,8 @@ module ZohoHub
       parse(result.body)
     end
 
-    def self.get_token(grant_token)
-      new.get_token(grant_token)
+    def self.get_token(grant_token, configuration = nil)
+      new(configuration: configuration).get_token(grant_token)
     end
 
     def get_token(grant_token)

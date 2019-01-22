@@ -8,29 +8,32 @@ module ZohoHub
     end
 
     module ClassMethods
-      def get(path, params = {})
-        ZohoHub.connection.get(path, params)
+      def get(connection, path, params = {})
+        connection ||= ZohoHub.connection
+        connection.get(path, params)
       end
 
-      def post(path, params = {})
-        ZohoHub.connection.post(path, params.to_json)
+      def post(connection, path, params = {})
+        connection ||= ZohoHub.connection
+        connection.post(path, params.to_json)
       end
 
-      def put(path, params = {})
-        ZohoHub.connection.put(path, params.to_json)
+      def put(connection, path, params = {})
+        connection ||= ZohoHub.connection
+        connection.put(path, params.to_json)
       end
     end
 
-    def get(path, params = {})
-      self.class.get(path, params)
+    def get(connection, path, params = {})
+      self.class.get(connection, path, params)
     end
 
-    def post(path, params = {})
-      self.class.post(path, params)
+    def post(connection, path, params = {})
+      self.class.post(connection, path, params)
     end
 
-    def put(path, params = {})
-      self.class.put(path, params)
+    def put(connection, path, params = {})
+      self.class.put(connection, path, params)
     end
   end
 end

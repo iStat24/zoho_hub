@@ -56,7 +56,7 @@ module ZohoHub
     end
 
     def log(text)
-      return unless ZohoHub.configuration.debug?
+      return unless self.debug
 
       puts Rainbow("[ZohoHub] #{text}").magenta.bright
     end
@@ -71,7 +71,7 @@ module ZohoHub
       # Try to refresh the token and try again
       if response.invalid_token? && refresh_token?
         log "Refreshing outdated token... #{@access_token}"
-        params = ZohoHub::Auth.refresh_token(@refresh_token)
+        params = ZohoHub::Auth.refresh_token(@refresh_token,  api_endpoint: api_domain)
 
         @on_refresh_cb.call(params) if @on_refresh_cb
 

@@ -20,8 +20,8 @@ module ZohoHub
     File.expand_path(File.join(__dir__, '..'))
   end
 
-  def configuration
-    @configuration ||= Configuration.new
+  def configuration(attrs = {})
+    Configuration.new(attrs)
   end
 
   def configure
@@ -36,9 +36,11 @@ module ZohoHub
   def setup_connection(params = {})
     raise "ERROR: #{params[:error]}" if params[:error]
 
-    connection_params = params.dup.slice(:access_token, :expires_in, :api_domain, :refresh_token)
+    whiteList = %i[access_token expires_in api_domain refresh_token]
 
-    @connection = Connection.new(connection_params)
+    connection_params = params.dup.select { |key| whiteList.include? key }
+
+    Connection.new(connection_params)
   end
 
   def connection
