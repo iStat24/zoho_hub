@@ -53,7 +53,7 @@ module ZohoHub
       end
 
       def create(connection, params)
-         post(connection, request_path, data: [params])
+        post(connection, request_path, data: [params])
       end
 
       def all(connection, options = {})
@@ -86,6 +86,10 @@ module ZohoHub
 
         response
       end
+    end
+
+    def update(connection, params)
+      put(connection, self.class.request_path, data: [params.merge({'id' => id})])
     end
 
     def build_response(body)
