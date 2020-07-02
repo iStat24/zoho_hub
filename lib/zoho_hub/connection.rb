@@ -71,7 +71,7 @@ module ZohoHub
       # Try to refresh the token and try again
       if response.invalid_token? && refresh_token?
         log "Refreshing outdated token... #{@access_token}"
-        params = ZohoHub::Auth.refresh_token(@refresh_token,  api_endpoint: api_domain)
+        params = ZohoHub::Auth.refresh_token(@refresh_token)
 
         @on_refresh_cb.call(params) if @on_refresh_cb
 
