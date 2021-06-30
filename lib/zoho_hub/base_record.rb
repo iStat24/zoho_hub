@@ -5,6 +5,7 @@ require 'zoho_hub/with_connection'
 require 'zoho_hub/with_attributes'
 require 'zoho_hub/string_utils'
 
+
 module ZohoHub
   class BaseRecord
     include WithConnection

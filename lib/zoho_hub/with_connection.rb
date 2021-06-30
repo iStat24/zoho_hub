@@ -13,14 +13,19 @@ module ZohoHub
         connection.get(path, params)
       end
 
-      def post(connection, path, params = {})
+      def post(connection, path, params = {}.to_json)
         connection ||= ZohoHub.connection
-        connection.post(path, params.to_json)
+        connection.post(path, params)
       end
 
-      def put(connection, path, params = {})
+      def put(connection, path, params = {}.to_json)
         connection ||= ZohoHub.connection
-        connection.put(path, params.to_json)
+        connection.put(path, params)
+      end
+
+      def delete(connection, path)
+        connection ||= ZohoHub.connection
+        connection.delete(path)
       end
     end
 
@@ -34,6 +39,10 @@ module ZohoHub
 
     def put(connection, path, params = {})
       self.class.put(connection, path, params)
+    end
+
+    def delete(connection, path)
+      self.class.delete(connection, path)
     end
   end
 end
